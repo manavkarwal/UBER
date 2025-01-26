@@ -45,7 +45,7 @@ const UserLogin = () => {
             </form>
 
             <div className='flex items-center justify-center '>
-                <Link to='/captain-login' className='bg-amber-600 text-3xl font-semibold py-4  rounded-md px-15  text-white  flex items-center justify-center'>Signup as Captain
+                <Link to='/captain-login' className='bg-amber-600 text-3xl font-semibold py-4  rounded-md px-15  text-white  flex items-center justify-center'>Login as a Captain
                 </Link>
             </div>
 
