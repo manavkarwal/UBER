@@ -61,20 +61,20 @@ const CaptainSignUp = () => {
       <form onSubmit={(e) => submitHandler(e)} className='flex flex-col '>
         <img className='w-30 mt-4 ml-2 ' src="https://logos-world.net/wp-content/uploads/2020/05/Uber-Emblem.png" alt="" />
         <h3 className='text-3xl font-semibold mt-10 mx-3'>Enter your Fullname</h3>
-        <div className='flex gap-3 mt-2'>
+        <div className='flex gap-3 mt-2 px-2 '>
           <input
             required
             value={firstname}
             onChange={(e) => {
               setFirstname(e.target.value)
             }}
-            className='bg-gray-200 rounded-md ml-2 outline-none  py-4 px-2 placeholder:text-2xl' type="text" placeholder='firstname' />
+            className='bg-gray-200 rounded-md  outline-none  w-1/2 text-3xl  py-2 px-2 placeholder:text-2xl' type="text" placeholder='firstname' />
           <input
             value={lastname}
             onChange={(e) => {
               setLastname(e.target.value)
             }}
-            className='bg-gray-200 rounded-md ml-2  outline-none   py-4 px-2 placeholder:text-2xl' type="text" placeholder='lastname' />
+            className='bg-gray-200 rounded-md  outline-none  w-1/2 text-3xl  py-2 px-2 placeholder:text-2xl' type="text" placeholder='lastname' />
 
         </div>
         <h3 className='text-3xl font-semibold mt-5 mx-3'>What's your email </h3>
@@ -84,7 +84,7 @@ const CaptainSignUp = () => {
           onChange={(e) => {
             setEmail(e.target.value)
           }}
-          className='bg-gray-200 rounded-md mt-2 outline-none  mx-3 py-4 px-2 placeholder:text-2xl' type="email" placeholder='enter your email' />
+          className='bg-gray-200 text-3xl   rounded-md mt-2 outline-none  mx-3 py-2 px-2 placeholder:text-2xl' type="email" placeholder='enter your email' />
         <h3 className='text-3xl font-semibold mt-5 mx-3'>Enter password</h3>
         <input
           required
@@ -92,36 +92,36 @@ const CaptainSignUp = () => {
           onChange={(e) => {
             setPassword(e.target.value)
           }}
-          className='bg-gray-200 rounded-md mt-2 outline-none mx-3 py-4 px-2 placeholder:text-2xl' type="password" placeholder='enter your password' />
+          className='bg-gray-200 text-3xl    rounded-md mt-2 outline-none  mx-3 py-2 px-2 placeholder:text-2xl' type="password" placeholder='enter your password' />
         <h3 className='text-3xl font-semibold mt-5 mx-3'>Vehicle details</h3>
-        <div className='flex gap-3 mt-2'>
+        <div className='flex gap-3 mt-2 px-2 '>
           <input
             required
             value={vehicleColor}
             onChange={(e) => {
               setVehicleColor(e.target.value)
             }}
-            className='bg-gray-200 rounded-md ml-2 outline-none  py-4 px-2 placeholder:text-2xl' type="text" placeholder='vehicle color' />
+            className='bg-gray-200 rounded-md  outline-none  w-1/2 text-3xl  py-2 px-2 placeholder:text-2xl' type="text" placeholder='vehicle color' />
           <input
             required
             value={vehiclePlate}
             onChange={(e) => {
               setVehiclePlate(e.target.value)
             }}
-            className='bg-gray-200 rounded-md ml-2  outline-none   py-4 px-2 placeholder:text-2xl' type="text" placeholder='vehicle plate ' />
+            className='bg-gray-200 rounded-md  outline-none  w-1/2 text-3xl  py-2 px-2 placeholder:text-2xl' type="text" placeholder='vehicle plate ' />
 
         </div>
-        <div className='flex gap-3 mt-5'>
+        <div className='flex gap-3 mt-2 px-2 '>
           <input
             required
             value={vehicleCapacity}
             onChange={(e) => {
               setVehicleCapacity(e.target.value)
             }}
-            className='bg-gray-200 rounded-md ml-2 outline-none  py-4 px-2 placeholder:text-2xl' type="text" placeholder='vehicle capacity' />
+            className='bg-gray-200 rounded-md  outline-none  w-1/2 text-3xl  py-2 px-2 placeholder:text-2xl' type="text" placeholder='vehicle capacity' />
           <select
             required
-            className='bg-gray-200 rounded-md ml-2 outline-none  py-4 px-2 placeholder:text-2xl'
+             className='bg-gray-200 rounded-md  l outline-none  w-1/2 text-lg  py-2 px-2 '
             value={vehicleType}
             onChange={(e) => {
               setVehicleType(e.target.value)
