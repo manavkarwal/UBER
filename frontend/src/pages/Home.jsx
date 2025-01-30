@@ -3,6 +3,8 @@ import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import 'remixicon/fonts/remixicon.css'
 import LocationSearchPanel from '../components/LocationSearchPanel';
+import VehiclePanel from '../components/VehiclePanel';
+import ConfirmRide from '../components/ConfirmRide';
 
 
 
@@ -13,7 +15,11 @@ const Home = () => {
   const [destination, setDestination] = useState('');
   const [panelOpen, setPanelOpen] = useState(false);
   const panelRef = useRef(null)
+  const vehiclePanelRef = useRef(null)
+  const confirmRidePanelRef = useRef(null)
   const panelCloseRef = useRef(null)
+  const [vehiclePanel, setVehiclePanel] = useState(false);
+  const [confirmRidePanel, setConfirmRidePanel] = useState(false);
 
   useGSAP(function () {
     if (panelOpen) {
@@ -38,6 +44,29 @@ const Home = () => {
   }, [panelOpen])
 
 
+  useGSAP(function () {
+    if (vehiclePanel) {
+      gsap.to(vehiclePanelRef.current, {
+        transform: 'translateY(0%)'
+      })
+    } else {
+      gsap.to(vehiclePanelRef.current, {
+        transform: 'translateY(100%)'
+      })
+    }
+  }, [vehiclePanel])
+
+  useGSAP(function () {
+    if (confirmRidePanel) {
+      gsap.to(confirmRidePanelRef.current, {
+        transform: 'translateY(0%)'
+      })
+    } else {
+      gsap.to(confirmRidePanelRef.current, {
+        transform: 'translateY(100%)'
+      })
+    }
+  }, [confirmRidePanel])
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -86,41 +115,15 @@ const Home = () => {
         </div>
 
         <div ref={panelRef} className='h-[70%] bg-white   '>
-          <LocationSearchPanel />
+          <LocationSearchPanel setPanelOpen={setPanelOpen} setVehiclePanel={setVehiclePanel} />
         </div>
 
       </div>
-
-      <div className='fixed w-full px-3 translate-x-full py-6 bg-white z-10 bottom-0 '>
-        <h2 className='text-3xl font-semibold mb-5'>Choose a vehicle</h2>
-        <div className='flex border-2 border-gray-400  active:border-black rounded-xl mb-2 w-full p-3 items-center justify-between'>
-          <img className='h-15 ' src="https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,w_956,h_638/v1682350114/assets/c2/296eac-574a-4a81-a787-8a0387970755/original/UberBlackXL.png" alt="" srcset="" />
-          <div className=' ml-2 w-1/2'>
-            <h4 className='font-medium text-base'>UberGo <span><i className='ri-user-3-fill'></i>4</span></h4>
-            <h5 className='font-medium text-sm'>mins away</h5>
-            <p className='font-normal text-sm text-gray-600'>Affordable, compact rides</p>
-          </div>
-          <h2 className='text-xl font-semibold'>₹193.20</h2>
-        </div>
-        <div className='flex border-2 border-gray-400 active:border-black  rounded-xl mb-2 w-full p-3 items-center justify-between'>
-          <img className='h-13 ' src="https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_368,w_552/v1648431773/assets/1d/db8c56-0204-4ce4-81ce-56a11a07fe98/original/Uber_Auto_558x372_pixels_Desktop.png" alt="" srcset="" />
-          <div className=' ml-3 w-1/2'>
-            <h4 className='font-medium text-base'>UberGo <span><i className='ri-user-3-fill'></i>4</span></h4>
-            <h5 className='font-medium text-sm'>mins away</h5>
-            <p className='font-normal text-sm text-gray-600'>Affordable, compact rides</p>
-          </div>
-          <h2 className='text-xl font-semibold'>₹193.20</h2>
-        </div>
-        <div className='flex border-2 border-gray-400 active:border-black  rounded-xl mb-2 w-full p-3 items-center justify-between'>
-          <img className='h-14 ' src="https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,w_956,h_537/v1571927853/assets/39/c1c2c7-61eb-4432-9bac-728b974207e7/original/cityscoot-icon-mobile.png" alt="" srcset="" />
-          <div className='  w-1/2'>
-            <h4 className='font-medium text-base'>UberGo <span><i className='ri-user-3-fill'></i>4</span></h4>
-            <h5 className='font-medium text-sm'>mins away</h5>
-            <p className='font-normal text-sm text-gray-600'>Affordable, compact rides</p>
-          </div>
-          <h2 className='text-xl font-semibold'>₹193.20</h2>
-        </div>
-
+      <div ref={vehiclePanelRef} className='fixed w-full px-3 translate-y-full py-6 bg-white z-10 bottom-0 '>
+        <VehiclePanel setConfirmRidePanel={setConfirmRidePanel} setVehiclePanel={setVehiclePanel} />
+      </div>
+      <div ref={confirmRidePanelRef} className='fixed w-full px-3 translate-y-full py-6 bg-white z-10 bottom-0 '>
+       <ConfirmRide setConfirmRidePanel={setConfirmRidePanel}/>
       </div>
     </div>
 
