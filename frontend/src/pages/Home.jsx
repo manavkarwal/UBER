@@ -6,6 +6,7 @@ import LocationSearchPanel from '../components/LocationSearchPanel';
 import VehiclePanel from '../components/VehiclePanel';
 import ConfirmRide from '../components/ConfirmRide';
 import LookingForDriver from '../components/LookingForDriver'
+import WaitingForDrivers from '../components/WaitingForDriver'
 
 
 
@@ -19,10 +20,12 @@ const Home = () => {
   const vehiclePanelRef = useRef(null)
   const vehicleFoundRef = useRef(null)
   const confirmRidePanelRef = useRef(null)
+  const waitingForDriverRef = useRef(null)
   const panelCloseRef = useRef(null)
   const [vehiclePanel, setVehiclePanel] = useState(false);
   const [confirmRidePanel, setConfirmRidePanel] = useState(false);
   const [vehicleFound, setVehicleFound] = useState(false);
+  const [waitingForDriver, setWaitingForDriver] = useState(false);
 
   useGSAP(function () {
     if (panelOpen) {
@@ -83,6 +86,18 @@ const Home = () => {
     }
   }, [vehicleFound])
 
+  useGSAP(function () {
+    if (waitingForDriver) {
+      gsap.to(waitingForDriverRef.current, {
+        transform: 'translateY(0%)'
+      })
+    } else {
+      gsap.to(waitingForDriverRef.current, {
+        transform: 'translateY(100%)'
+      })
+    }
+  }, [waitingForDriver])
+
   const submitHandler = (e) => {
     e.preventDefault();
 
@@ -142,6 +157,9 @@ const Home = () => {
       </div>
       <div ref={vehicleFoundRef} className='fixed w-full px-3 translate-y-full py-6 bg-white z-10 bottom-0 '>
         <LookingForDriver  setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound} />
+      </div>
+      <div  ref={waitingForDriverRef}  className='fixed w-full px-3  translate-y-full  py-6 bg-white z-10 bottom-0 '>
+        <WaitingForDrivers  waitingForDriver={waitingForDriver}  />
       </div>
     </div>
 
