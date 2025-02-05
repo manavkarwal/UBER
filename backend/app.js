@@ -13,11 +13,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+const mapsRoutes = require('./routes/map.routes')
+
 app.get("/", (req, res) => {
   res.send("hello world");
 });
 
 app.use("/users", userRoutes);
 app.use("/captain", captainRoutes);
+app.use('/maps', mapsRoutes)
 
 module.exports = app;
