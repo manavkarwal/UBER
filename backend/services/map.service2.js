@@ -3,7 +3,7 @@ const axios = require("axios");
 
 const mapService = require("../services/map.services");
 
-exports.getDistanceTime = async (origin, destination) => {
+module.exports.getDistanceTime = async (origin, destination) => {
   if (!origin || !destination) {
     throw new Error("Origin and destination are required");
   }

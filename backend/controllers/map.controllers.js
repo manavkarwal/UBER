@@ -5,7 +5,7 @@ const mapService = require('../services/map.services');
 const { validationResult }= require('express-validator');
 
 
-exports.getCoordinates = async (req, res) => {
+module.exports.getCoordinates = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -29,7 +29,7 @@ exports.getCoordinates = async (req, res) => {
 
 
 
-exports.getDistanceAndTime = async (req, res) => {
+module.exports.getDistanceAndTime = async (req, res) => {
 
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -41,6 +41,33 @@ exports.getDistanceAndTime = async (req, res) => {
     res.json(distanceTime);
   } catch (error) {
     res.status(500).json({ error: "Error fetching distance and time" });
+  }
+};
+
+
+
+module.exports.getAutoCompleteSuggestions = async (req, res) => {
+  
+
+  try {
+    const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+
+  const { input } = req.query;
+    
+
+    const suggestions = await mapService.getCompleteSuggestions(input);
+
+    return res.status(200).json({
+      message: "Search suggestions fetched successfully",
+      suggestions: suggestions
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Something went wrong" });
   }
 };
 

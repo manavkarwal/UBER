@@ -2,7 +2,7 @@
 const axios = require("axios");
 
 // Function to fetch coordinates from OpenStreetMap API
-exports.getAddressCoordinates = async (address) => {
+module.exports.getAddressCoordinates = async (address) => {
   const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
     address
   )}`;
@@ -19,9 +19,34 @@ exports.getAddressCoordinates = async (address) => {
     }
 
     console.error("No coordinates found for address:", address);
-    return null; // ❌ Address not found
+    return null; 
   } catch (error) {
     console.error("Error fetching location:", error);
+    throw error;
+  }
+};
+
+module.exports.getCompleteSuggestions = async (input) => {
+  if (!input) {
+    throw new Error("Query is required");
+  }
+
+  const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+    input
+  )}&addressdetails=1`;
+
+  try {
+    const response = await axios.get(url);
+    if (response.data && response.data.length > 0) {
+      return response.data.map((suggestion) => ({
+        label: suggestion.display_name,
+        latitude: suggestion.lat,
+        longitude: suggestion.lon,
+      }));
+    }
+    return [];
+  } catch (error) {
+    console.error("Error fetching search suggestions:", error);
     throw error;
   }
 };
