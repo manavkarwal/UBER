@@ -5,9 +5,19 @@ const authMiddleware = require("../middlewares/auth.middleware");
 const { query } = require("express-validator");
 
 // POST request to search location and get coordinates
-router.get("/get-coordinates",
-    query('address').isString().isLength({ min:3 }),
-    authMiddleware.authUser,
-    mapController.getCoordinates);
+router.get(
+  "/get-coordinates",
+  query("address").isString().isLength({ min: 3 }),
+  authMiddleware.authUser,
+  mapController.getCoordinates
+);
+
+router.get(
+  "/getdistancetime",
+  query("origin").isString().isLength({ min: 3 }),
+  query("destination").isString().isLength({ min: 3 }),
+  authMiddleware.authUser,
+  mapController.getDistanceAndTime
+);
 
 module.exports = router;
