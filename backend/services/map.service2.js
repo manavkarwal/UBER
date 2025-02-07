@@ -10,9 +10,7 @@ module.exports.getDistanceTime = async (origin, destination) => {
 
   try {
     const originCoords = await mapService.getAddressCoordinates(origin);
-    const destinationCoords = await mapService.getAddressCoordinates(
-      destination
-    );
+    const destinationCoords = await mapService.getAddressCoordinates(destination);
 
     if (!originCoords || !destinationCoords) {
       throw new Error("Invalid origin or destination address");
@@ -22,6 +20,8 @@ module.exports.getDistanceTime = async (origin, destination) => {
 
     const url = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=${apiKey}&start=${originCoords.lon},${originCoords.lat}&end=${destinationCoords.lon},${destinationCoords.lat}`;
 
+
+    console.log(url)
     const response = await axios.get(url);
 
     if (response.data?.features?.length > 0) {

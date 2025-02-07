@@ -14,7 +14,7 @@ module.exports.getAddressCoordinates = async (address) => {
       const location = response.data[0];
       return {
         lat: parseFloat(location.lat),
-        lon: parseFloat(location.lon),
+        lon: parseFloat(location.lon)
       };
     }
 
@@ -25,6 +25,10 @@ module.exports.getAddressCoordinates = async (address) => {
     throw error;
   }
 };
+
+
+
+
 
 module.exports.getCompleteSuggestions = async (input) => {
   if (!input) {
