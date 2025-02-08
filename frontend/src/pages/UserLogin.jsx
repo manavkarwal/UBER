@@ -30,7 +30,7 @@ const UserLogin = () => {
             localStorage.setItem('token', data.token)
             navigate('/Home')
         }
-        console.log(userData)
+    
         setEmail('')
         setPassword('');
     }

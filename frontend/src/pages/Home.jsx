@@ -26,6 +26,30 @@ const Home = () => {
   const [confirmRidePanel, setConfirmRidePanel] = useState(false);
   const [vehicleFound, setVehicleFound] = useState(false);
   const [waitingForDriver, setWaitingForDriver] = useState(false);
+  const [activeInput, setActiveInput] = useState(null); // 'pickup' or 'destination'
+  const [searchInput, setSearchInput] = useState('');
+
+  const handlePickupFocus = () => {
+    setActiveInput('pickup');
+    setPanelOpen(true);
+  };
+
+  const handleDestinationFocus = () => {
+    setActiveInput('destination');
+    setPanelOpen(true);
+  };
+
+  const handlePickupChange = (e) => {
+    const value = e.target.value;
+    setPickup(value);
+    setSearchInput(value);
+  };
+
+  const handleDestinationChange = (e) => {
+    const value = e.target.value;
+    setDestination(value);
+    setSearchInput(value);
+  };
 
   useGSAP(function () {
     if (panelOpen) {
@@ -98,6 +122,12 @@ const Home = () => {
     }
   }, [waitingForDriver])
 
+
+
+
+
+
+
   const submitHandler = (e) => {
     e.preventDefault();
 
@@ -124,28 +154,27 @@ const Home = () => {
           }}>
 
             <input
-              onClick={() => {
-                setPanelOpen(true)
-              }}
+              onClick={handlePickupFocus}
               value={pickup}
-              onChange={(e) =>
-                setPickup(e.target.value)
-              }
+              onChange={handlePickupChange}
               className='bg-gray-200 text-3xl w-full  rounded-md mt-5 outline-none   py-2 px-2 placeholder:text-2xl' type='text' placeholder='Add a pickup location'></input>
             <input
-              onClick={() => {
-                setPanelOpen(true)
-              }}
+              onClick={handleDestinationFocus}
               value={destination}
-              onChange={(e) =>
-                setDestination(e.target.value)
-              }
+              onChange={handleDestinationChange}
               className='bg-gray-200 text-3xl w-full  rounded-md mt-5 outline-none   py-2 px-2 placeholder:text-2xl' type="text" placeholder='enter your destination' />
           </form>
         </div>
 
         <div ref={panelRef} className='h-[70%] bg-white   '>
-          <LocationSearchPanel setPanelOpen={setPanelOpen} setVehiclePanel={setVehiclePanel} />
+          <LocationSearchPanel 
+            setPanelOpen={setPanelOpen} 
+            setVehiclePanel={setVehiclePanel} 
+            searchInput={searchInput}
+            isPickup={activeInput === 'pickup'}
+            setPickup={setPickup}
+            setDestination={setDestination}
+          />
         </div>
 
       </div>
@@ -156,10 +185,10 @@ const Home = () => {
         <ConfirmRide setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound} />
       </div>
       <div ref={vehicleFoundRef} className='fixed w-full px-3 translate-y-full py-6 bg-white z-10 bottom-0 '>
-        <LookingForDriver  setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound} />
+        <LookingForDriver setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound} />
       </div>
-      <div  ref={waitingForDriverRef}  className='fixed w-full px-3  translate-y-full  py-6 bg-white z-10 bottom-0 '>
-        <WaitingForDrivers  waitingForDriver={waitingForDriver}  />
+      <div ref={waitingForDriverRef} className='fixed w-full px-3  translate-y-full  py-6 bg-white z-10 bottom-0 '>
+        <WaitingForDrivers waitingForDriver={waitingForDriver} />
       </div>
     </div>
 
