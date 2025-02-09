@@ -162,6 +162,12 @@ const Home = () => {
     }
   }, [waitingForDriver])
 
+
+
+
+
+
+
   const submitHandler = (e) => {
     e.preventDefault();
 
@@ -221,12 +227,16 @@ const Home = () => {
 
             <input
               onClick={handlePickupFocus}
+              onClick={handlePickupFocus}
               value={pickup}
+              onChange={handlePickupChange}
               onChange={handlePickupChange}
               className='bg-gray-200 text-3xl w-full  rounded-md mt-5 outline-none   py-2 px-2 placeholder:text-2xl' type='text' placeholder='Add a pickup location'></input>
             <input
               onClick={handleDestinationFocus}
+              onClick={handleDestinationFocus}
               value={destination}
+              onChange={handleDestinationChange}
               onChange={handleDestinationChange}
               className='bg-gray-200 text-3xl w-full  rounded-md mt-5 outline-none   py-2 px-2 placeholder:text-2xl' type="text" placeholder='enter your destination' />
           </form>
@@ -270,6 +280,8 @@ const Home = () => {
         destination={destination}
         setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound} />
       </div>
+      <div ref={waitingForDriverRef} className='fixed w-full px-3  translate-y-full  py-6 bg-white z-10 bottom-0 '>
+        <WaitingForDrivers waitingForDriver={waitingForDriver} />
       <div ref={waitingForDriverRef} className='fixed w-full px-3  translate-y-full  py-6 bg-white z-10 bottom-0 '>
         <WaitingForDrivers waitingForDriver={waitingForDriver} />
       </div>

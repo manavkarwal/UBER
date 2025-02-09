@@ -10,8 +10,6 @@ async function getFare(pickup, destination) {
 
   const distanceTime = await mapService.getDistanceTime(pickup, destination);
 
-  console.log(distanceTime.value);
-
   const baseFare = {
     auto: 30,
     car: 50,
