@@ -8,8 +8,29 @@ import ConfirmRide from '../components/ConfirmRide';
 import LookingForDriver from '../components/LookingForDriver'
 import WaitingForDrivers from '../components/WaitingForDriver'
 
+// Add these new functions after the imports and before the Home component
 
+const fetchPickupLocations = async (query) => {
+  try {
+    const response = await fetch(`YOUR_API_ENDPOINT/search?query=${query}`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching pickup locations:', error);
+    return [];
+  }
+};
 
+const fetchDestinationLocations = async (query) => {
+  try {
+    const response = await fetch(`YOUR_API_ENDPOINT/search?query=${query}`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching destination locations:', error);
+    return [];
+  }
+};
 
 const Home = () => {
 
@@ -26,6 +47,46 @@ const Home = () => {
   const [confirmRidePanel, setConfirmRidePanel] = useState(false);
   const [vehicleFound, setVehicleFound] = useState(false);
   const [waitingForDriver, setWaitingForDriver] = useState(false);
+  const [activeInput, setActiveInput] = useState(null); // 'pickup' or 'destination'
+  const [searchInput, setSearchInput] = useState('');
+  const [pickupSuggestions, setPickupSuggestions] = useState([]);
+  const [destinationSuggestions, setDestinationSuggestions] = useState([]);
+
+  const handlePickupFocus = () => {
+    setActiveInput('pickup');
+    setPanelOpen(true);
+  };
+
+  const handleDestinationFocus = () => {
+    setActiveInput('destination');
+    setPanelOpen(true);
+  };
+
+  const handlePickupChange = async (e) => {
+    const value = e.target.value;
+    setPickup(value);
+    setSearchInput(value);
+    
+    if (value.length >= 3) {
+      const locations = await fetchPickupLocations(value);
+      // Handle the locations data as needed
+      // You might want to add a new state to store the suggestions
+      // setPickupSuggestions(locations);
+    }
+  };
+
+  const handleDestinationChange = async (e) => {
+    const value = e.target.value;
+    setDestination(value);
+    setSearchInput(value);
+  
+    if (value.length >= 3) {
+      const locations = await fetchDestinationLocations(value);
+      // Handle the locations data as needed
+      // You might want to add a new state to store the suggestions
+      // setDestinationSuggestions(locations);
+    }
+  };
 
   useGSAP(function () {
     if (panelOpen) {
@@ -124,28 +185,28 @@ const Home = () => {
           }}>
 
             <input
-              onClick={() => {
-                setPanelOpen(true)
-              }}
+              onClick={handlePickupFocus}
               value={pickup}
-              onChange={(e) =>
-                setPickup(e.target.value)
-              }
+              onChange={handlePickupChange}
               className='bg-gray-200 text-3xl w-full  rounded-md mt-5 outline-none   py-2 px-2 placeholder:text-2xl' type='text' placeholder='Add a pickup location'></input>
             <input
-              onClick={() => {
-                setPanelOpen(true)
-              }}
+              onClick={handleDestinationFocus}
               value={destination}
-              onChange={(e) =>
-                setDestination(e.target.value)
-              }
+              onChange={handleDestinationChange}
               className='bg-gray-200 text-3xl w-full  rounded-md mt-5 outline-none   py-2 px-2 placeholder:text-2xl' type="text" placeholder='enter your destination' />
           </form>
         </div>
 
         <div ref={panelRef} className='h-[70%] bg-white   '>
-          <LocationSearchPanel setPanelOpen={setPanelOpen} setVehiclePanel={setVehiclePanel} />
+          <LocationSearchPanel 
+            setPanelOpen={setPanelOpen} 
+            setVehiclePanel={setVehiclePanel} 
+            searchInput={searchInput}
+            isPickup={activeInput === 'pickup'}
+            setPickup={setPickup}
+            setDestination={setDestination}
+            suggestions={activeInput === 'pickup' ? pickupSuggestions : destinationSuggestions}
+          />
         </div>
 
       </div>
