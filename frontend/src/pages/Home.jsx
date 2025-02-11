@@ -184,7 +184,7 @@ const Home = () => {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
     })
-    console.log(response.data)
+    
     setFare(response.data)
   }
 
@@ -199,7 +199,7 @@ const Home = () => {
         }
       })
 
-    console.log(response.data)
+   
   }
 
 

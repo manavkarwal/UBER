@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { CaptainDataContext } from '../context/CapatainContext';
+import { CaptainDataContext } from '../context/CaptainContext';
 
 const CaptainLogin = () => {
   const [email, setEmail] = useState('');
@@ -21,7 +21,7 @@ const CaptainLogin = () => {
 
     const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/captain/login`, captain);
 
-
+   
     if (response.status === 201) {
         const data = response.data
         setCaptain(data.captain)

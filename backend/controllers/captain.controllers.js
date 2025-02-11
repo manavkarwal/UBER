@@ -11,13 +11,13 @@ module.exports.registerCaptain = async (req, res, next) => {
 
   const { fullname, email, password, vehicle } = req.body;
 
-  const hashedPassword = await captainModel.hashPassword(password);
-
   const isCaptainAlreadyExist = await captainModel.findOne({ email });
 
   if (isCaptainAlreadyExist) {
     return res.status(400).json({ message: "Captain already exist " });
   }
+
+  const hashedPassword = await captainModel.hashPassword(password);
 
   const captain = await captainService.createCaptain({
     firstname: fullname.firstname,
@@ -63,15 +63,17 @@ module.exports.loginCaptain = async (req, res, next) => {
 };
 
 module.exports.getCaptainProfile = async (req, res, next) => {
-  res.status(200).json(req.captain);
-};
+    res.status(200).json({ captain: req.captain });
+}
 
 module.exports.logoutCaptain = async (req, res, next) => {
-  res.clearCookie("token");
+  
 
   const token = req.cookies.token || req.header.authorization.split(" ")[1];
 
   await blackListTokenModel.create({ token });
+
+  res.clearCookie('token')
 
   res.status(200).json({ message: "Logout out" });
 };

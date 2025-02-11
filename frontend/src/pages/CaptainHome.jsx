@@ -9,6 +9,11 @@ import ConfirmRidePopUp from '../components/ConfirmRidePopUp';
 const CaptainHome = () => {
   const [ridePopupPanel, setRidePopupPanel] = useState(true)
   const ridePopupPanelRef = useRef(null)
+  const [confirmridePopupPanel, setConfirmRidePopupPanel] = useState(false)
+  const confirmRidePopupPanelRef = useRef(null)
+
+
+
   useGSAP(function () {
     if (ridePopupPanel) {
       gsap.to(ridePopupPanelRef.current, {
@@ -21,9 +26,6 @@ const CaptainHome = () => {
     }
   }, [ridePopupPanel])
 
-
-  const [confirmridePopupPanel, setConfirmRidePopupPanel] = useState(false)
-  const confirmRidePopupPanelRef = useRef(null)
   useGSAP(function () {
     if (confirmridePopupPanel) {
       gsap.to(confirmRidePopupPanelRef.current, {
@@ -36,6 +38,7 @@ const CaptainHome = () => {
     }
   }, [confirmridePopupPanel])
 
+  
   return (
     <div className='h-screen'>
       <div className='fixed p-6 top-0 flex items-center justify-between w-screen'>
