@@ -1,5 +1,6 @@
 // services/locationService.js
 const axios = require("axios");
+const captainModel = require("../models/captain.models");
 
 // Function to fetch coordinates from OpenStreetMap API
 module.exports.getAddressCoordinates = async (address) => {
@@ -27,9 +28,6 @@ module.exports.getAddressCoordinates = async (address) => {
 };
 
 
-
-
-
 module.exports.getCompleteSuggestions = async (input) => {
   if (!input) {
     throw new Error("Query is required");
@@ -54,3 +52,14 @@ module.exports.getCompleteSuggestions = async (input) => {
     throw error;
   }
 };
+
+module.exports.getCaptainsInTheRadius = async (lat, lon, radius) => {
+  const captains = await captainModel.find({
+    location:{
+      $goeWithin:{
+        $centerSphere:[ [lat, lon], radius / 6371]
+      }
+    }
+  });
+  return captains;
+}

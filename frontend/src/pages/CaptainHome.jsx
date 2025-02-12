@@ -16,14 +16,39 @@ const CaptainHome = () => {
   const [confirmridePopupPanel, setConfirmRidePopupPanel] = useState(false)
   const confirmRidePopupPanelRef = useRef(null)
 
-const { socket }  = useContext(SocketContext);
-const { captain } = useContext(CaptainDataContext);
-useEffect(()=> {
-  socket.emit('join', {
-    userId: captain._id,
-    userType:'captain'
+  const { socket } = useContext(SocketContext);
+  const { captain } = useContext(CaptainDataContext);
+  useEffect(() => {
+    socket.emit('join', {
+      userId: captain._id,
+      userType: 'captain'
+    })
+
+    const updateLocation = () => {
+      if( navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(position => {
+
+          console.log({
+            userId: captain._id, 
+            location:{
+              lat:position.coords.latitude,
+              lon:position.coords.longitude
+            }
+          })
+          socket.emit('update-location-captain', {
+            userId: captain._id, 
+            location:{
+              lat:position.coords.latitude,
+              lon:position.coords.longitude
+            }
+          })
+        })
+      }
+    }
+
+    const locationInterval = setInterval(updateLocation, 10000)
+    updateLocation();
   })
-})
 
   useGSAP(function () {
     if (ridePopupPanel) {
@@ -49,7 +74,7 @@ useEffect(()=> {
     }
   }, [confirmridePopupPanel])
 
-  
+
   return (
     <div className='h-screen'>
       <div className='fixed p-6 top-0 flex items-center justify-between w-screen'>
@@ -67,17 +92,17 @@ useEffect(()=> {
       </div>
       <div ref={ridePopupPanelRef} className='fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12'>
         <RidePopUp
-        
-        
+
+
           setRidePopupPanel={setRidePopupPanel}
           setConfirmRidePopupPanel={setConfirmRidePopupPanel}
-        
+
         />
       </div>
       <div ref={confirmRidePopupPanelRef} className='fixed w-full h-screen z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12'>
         <ConfirmRidePopUp
-    
-    
+
+
           setConfirmRidePopupPanel={setConfirmRidePopupPanel} setRidePopupPanel={setRidePopupPanel} />
       </div>
 

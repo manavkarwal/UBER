@@ -61,6 +61,7 @@ const Home = () => {
 
  const { socket }  = useContext(SocketContext);
  const { user } = useContext(UserDataContext);
+ 
  useEffect(()=> {
    socket.emit('join', {
      userId: user._id,

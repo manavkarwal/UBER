@@ -25,9 +25,24 @@ const initializeSocket = (server) => {
       }
     });
 
-    socket.on("disconnect", () => {
-      console.log("User disconnected:", socket.id);
-    });
+    socket.on('update-location-captain', async (data) => {
+      const {userId, location} = data;
+
+      if(!location || !location.lat || !location.lon) {
+        return socket.emit('error', {message: 'Invalid  location'})
+      }
+
+      await captainModel.findByIdAndUpdate(userId, {
+        location:{
+          lat: location.lat,
+          lon: location.lon
+        }
+      })
+    })
+
+    // socket.on("disconnect", () => {
+    //   console.log("User disconnected:", socket.id);
+    // });
   });
 };
 
