@@ -15,18 +15,17 @@ module.exports.getAddressCoordinates = async (address) => {
       const location = response.data[0];
       return {
         lat: parseFloat(location.lat),
-        lon: parseFloat(location.lon)
+        lon: parseFloat(location.lon),
       };
     }
 
     console.error("No coordinates found for address:", address);
-    return null; 
+    return null;
   } catch (error) {
     console.error("Error fetching location:", error);
     throw error;
   }
 };
-
 
 module.exports.getCompleteSuggestions = async (input) => {
   if (!input) {
@@ -54,15 +53,14 @@ module.exports.getCompleteSuggestions = async (input) => {
 };
 
 module.exports.getCaptainsInTheRadius = async (lat, lon, radius) => {
-  const captains = await captainModel.find({
-    location:{
-      $geoWithin:{
-        $centerSphere:[ [lat, lon], radius / 6371]
-      }
-    }
-  });
-  
-  return captains;
 
- 
-}
+  const captains = await captainModel.find({
+    location: {
+      $geoWithin: {
+        $centerSphere: [[lat, lon], radius / 6371],
+      },
+    },
+  });
+;
+  return captains;
+};

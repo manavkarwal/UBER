@@ -29,16 +29,9 @@ const CaptainHome = () => {
 
     const updateLocation = () => {
       if( navigator.geolocation){
-        navigator.geolocation.getCurrentPosition(position => {
+        navigator.geolocation.getCurrentPosition(   position => {
 
-          // console.log({
-            
-          //   userId: captain._id, 
-          //   location:{
-          //     lat:position.coords.latitude,
-          //     lon:position.coords.longitude
-          //   }
-          // })
+         
           socket.emit('update-location-captain', {
             userId: captain._id, 
             location:{
@@ -52,6 +45,10 @@ const CaptainHome = () => {
 
     const locationInterval = setInterval(updateLocation, 10000)
     updateLocation();
+  })
+
+  socket.on('new-ride', (data) => {
+   console.log(data)
   })
 
   useGSAP(function () {
