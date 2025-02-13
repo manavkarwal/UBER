@@ -56,10 +56,13 @@ module.exports.getCompleteSuggestions = async (input) => {
 module.exports.getCaptainsInTheRadius = async (lat, lon, radius) => {
   const captains = await captainModel.find({
     location:{
-      $goeWithin:{
+      $geoWithin:{
         $centerSphere:[ [lat, lon], radius / 6371]
       }
     }
   });
+  
   return captains;
+
+ 
 }

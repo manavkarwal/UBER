@@ -59,15 +59,13 @@ const Home = () => {
   const [vehicleType, setVehicleType] = useState(null)
 
 
- const { socket }  = useContext(SocketContext);
- const { user } = useContext(UserDataContext);
- 
- useEffect(()=> {
-   socket.emit('join', {
-     userId: user._id,
-     userType:'user'
-   })
- })
+  const { socket } = useContext(SocketContext);
+  const { user } = useContext(UserDataContext);
+
+
+  useEffect(() => {
+    socket.emit("join", { userId: user._id, userType: "user" })
+  }, [user])
 
   const handlePickupFocus = () => {
     setActiveInput('pickup');
@@ -198,7 +196,7 @@ const Home = () => {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
     })
-
+    console.log('fare', response)
     setFare(response.data)
   }
 
@@ -212,7 +210,7 @@ const Home = () => {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
       })
-
+    console.log('ride', response)
 
   }
 

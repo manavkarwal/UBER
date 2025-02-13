@@ -19,11 +19,15 @@ module.exports.createride = async (req, res) => {
       destination,
       vehicleType,
     });
-     res.status(201).json(ride);
+     
 
      const pickupCoordinates = await mapService.getAddressCoordinates(pickup);
 
      const captainsInRadius = await mapService.getCaptainsInTheRadius(pickupCoordinates.lat, pickupCoordinates.lon, 2)
+
+    
+
+      return res.status(201).json({ ride, captainsInRadius });
   } catch (error) {
     return res.status(500).json({
       message: error.message,
@@ -41,6 +45,7 @@ module.exports.getFaree = async (req, res) => {
 
   try {
     const fare = await rideService.getFare(pickup, destination);
+    
     return res.status(200).json(fare);
   } catch (error) {
     return res.status(500).json({ message: error.message });
