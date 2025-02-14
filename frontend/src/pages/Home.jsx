@@ -57,6 +57,7 @@ const Home = () => {
   const [destinationSuggestions, setDestinationSuggestions] = useState([]);
   const [fare, setFare] = useState([]);
   const [vehicleType, setVehicleType] = useState(null)
+  const [ride, setRide] = useState(null);
 
 
   const { socket } = useContext(SocketContext);
@@ -66,6 +67,13 @@ const Home = () => {
   useEffect(() => {
     socket.emit("join", { userId: user._id, userType: "user" })
   }, [user])
+
+
+  socket.on('ride-confirmed', ride => {
+    setRide(ride)
+    setVehicleFound(false)
+    setWaitingForDriver(true)
+  })
 
   const handlePickupFocus = () => {
     setActiveInput('pickup');
@@ -278,10 +286,12 @@ const Home = () => {
           vehicleType={vehicleType}
           destination={destination}
           createRide={createRide}
-          setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound} />
+          setConfirmRidePanel={setConfirmRidePanel} 
+          setVehicleFound={setVehicleFound} />
       </div>
       <div ref={vehicleFoundRef} className='fixed w-full px-3 translate-y-full py-6 bg-white z-10 bottom-0 '>
         <LookingForDriver
+         createRide={createRide}
           pickup={pickup}
           fare={fare}
           vehicleType={vehicleType}
@@ -289,7 +299,11 @@ const Home = () => {
           setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound} />
       </div>
       <div ref={waitingForDriverRef} className='fixed w-full px-3  translate-y-full  py-6 bg-white z-10 bottom-0 '>
-        <WaitingForDrivers waitingForDriver={waitingForDriver} />
+        <WaitingForDrivers 
+        ride={ride}
+        setVehicleFound={setVehicleFound}
+        setWaitingForDriver={setWaitingForDriver}
+        waitingForDriver={waitingForDriver} />
       </div>
     </div>
   )
