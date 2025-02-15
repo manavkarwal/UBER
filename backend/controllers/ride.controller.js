@@ -33,7 +33,7 @@ module.exports.createride = async (req, res) => {
 
     ride.otp = "";
 
-    captainsInRadius.map((captain) => {
+    captainsInRadius.map((captain) => { 
       sendMessageToSocketId(captain.socketId, {
         event: "new-ride",
         data: ride,
