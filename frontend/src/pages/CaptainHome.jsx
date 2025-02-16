@@ -8,6 +8,7 @@ import ConfirmRidePopUp from '../components/ConfirmRidePopUp';
 import { useEffect, useContext } from 'react';
 import { CaptainDataContext } from '../context/CaptainContext';
 import { SocketContext } from '../context/SocketContext';
+import axios from 'axios';
 
 
 const CaptainHome = () => {
@@ -15,9 +16,12 @@ const CaptainHome = () => {
   const ridePopupPanelRef = useRef(null)
   const [confirmridePopupPanel, setConfirmRidePopupPanel] = useState(false)
   const confirmRidePopupPanelRef = useRef(null)
-  const [ride, setRide] = useState(null);
+  
   const { socket } = useContext(SocketContext);
   const { captain } = useContext(CaptainDataContext);
+  const [ride, setRide] = useState(null);
+
+  
 
 
 
@@ -25,18 +29,18 @@ const CaptainHome = () => {
     socket.emit('join', {
       userId: captain._id,
       userType: 'captain'
-    },[captain])
+    }, [captain])
 
     const updateLocation = () => {
-      if( navigator.geolocation){
-        navigator.geolocation.getCurrentPosition(   position => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(position => {
 
-         
+
           socket.emit('update-location-captain', {
-            userId: captain._id, 
-            location:{
-              lat:position.coords.latitude,
-              lon:position.coords.longitude
+            userId: captain._id,
+            location: {
+              lat: position.coords.latitude,
+              lon: position.coords.longitude
             }
           })
         })
@@ -48,10 +52,34 @@ const CaptainHome = () => {
   })
 
   socket.on('new-ride', (data) => {
-   console.log(data)
-   setRide(data)
-   setRidePopupPanel(true);
-  })
+   
+    setRide(data)
+    setRidePopupPanel(true);
+  });
+
+  
+
+  async function confirmRide() {
+   try {
+     const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/ride/confirm`, {
+       
+       rideId: ride._id,
+       captainId: captain._id
+     }, {
+       headers: {
+         Authorization: `Bearer ${localStorage.getItem('tokenn')}`
+       }
+     }
+    
+   
+    )
+   } catch (error) {
+    console.log(error,"in captain home")
+   }
+   
+    setRidePopupPanel(false);
+    setConfirmRidePopupPanel(true);
+  }
 
   useGSAP(function () {
     if (ridePopupPanel) {
@@ -99,6 +127,7 @@ const CaptainHome = () => {
           ride={ride}
           setRidePopupPanel={setRidePopupPanel}
           setConfirmRidePopupPanel={setConfirmRidePopupPanel}
+          confirmRide={confirmRide}
 
         />
       </div>

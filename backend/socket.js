@@ -49,7 +49,8 @@ const initializeSocket = (server) => {
 };
 
 const sendMessageToSocketId = (socketId, messageObject) => {
-  console.log(`Sending message to ${socketId}, messageObject`);
+  console.log(`Sending message to ${socketId}, messageObject.event, messageObject.data`);
+  
   if (io) {
     io.to(socketId).emit(messageObject.event, messageObject.data);
   } else {

@@ -31,7 +31,7 @@ router.get(
       min: 3,
     })
     .withMessage("Invalid pickup"),
-    query("destination")
+  query("destination")
     .isString()
     .isLength({
       min: 3,
@@ -40,4 +40,15 @@ router.get(
 
   rideController.getFaree
 );
+
+try {
+  router.post(
+    "/confirm",
+    authMiddleware.authCaptain,
+    body("rideId").isMongoId().withMessage("Invalid ride id"),
+    rideController.createRide
+  );
+} catch (error) {
+  console.log(error,"issue in route")
+}
 module.exports = router;

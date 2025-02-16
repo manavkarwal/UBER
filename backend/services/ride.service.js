@@ -82,3 +82,32 @@ module.exports.createRide = async ({
 
   return ride;
 };
+
+module.exports.confirmRide = async ( ride, captain ) => {
+
+  
+  try {
+    if (!ride) {
+      throw new Error("Ride id is required");
+    }
+
+    await rideModel.findOneAndUpdate(
+      { _id: ride },
+      {
+        status: "accepted",
+        captain: captain,
+        
+      }
+    );
+
+    const ridee = await rideModel.findOne({ _id: ride }).populate('user').populate('captain').select('+otp');
+    if (!ridee) {
+      throw new Error("Ride id not found");
+    }
+    return ridee;
+  } catch (error) {
+    console.log(error, "in ride services");
+    throw error; // Ensure error is propagated
+  }
+};
+

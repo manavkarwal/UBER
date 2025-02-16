@@ -67,3 +67,26 @@ module.exports.getFaree = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+
+
+module.exports.createRide = async (req, res) => {
+  
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { rideId, captainId} = req.body;
+
+  try {
+      const ride = await  rideService.confirmRide(rideId, captainId );
+      sendMessageToSocketId(ride.user.socketId,{
+        event: "ride-confirmed",
+        data: ride
+      })
+
+      return res.status(200).json(ride);
+  } catch (error) {
+    return res.status(500).json({ message: error.message});
+  }
+}

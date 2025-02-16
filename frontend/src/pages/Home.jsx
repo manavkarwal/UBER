@@ -215,6 +215,12 @@ const Home = () => {
   }
 
 
+  socket.on('ride-confirmed', ride => {
+    console.log(ride,"in home.jsx")
+   setWaitingForDriver(true) 
+  })
+
+
 
 
   return (
