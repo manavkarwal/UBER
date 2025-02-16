@@ -57,6 +57,7 @@ const Home = () => {
   const [destinationSuggestions, setDestinationSuggestions] = useState([]);
   const [fare, setFare] = useState([]);
   const [vehicleType, setVehicleType] = useState(null)
+  const [ride, setRide] = useState(null);
 
 
   const { socket } = useContext(SocketContext);
@@ -216,7 +217,7 @@ const Home = () => {
 
 
   socket.on('ride-confirmed', ride => {
-    console.log(ride,"in home.jsx")
+    setRide(ride)
    setWaitingForDriver(true) 
   })
 
@@ -294,8 +295,12 @@ const Home = () => {
           destination={destination}
           setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound} />
       </div>
-      <div ref={waitingForDriverRef} className='fixed w-full px-3  translate-y-full  py-6 bg-white z-10 bottom-0 '>
-        <WaitingForDrivers waitingForDriver={waitingForDriver} />
+      <div ref={waitingForDriverRef}
+      ride={createRide}
+       className='fixed w-full px-3  translate-y-full  py-6 bg-white z-10 bottom-0 '>
+        <WaitingForDrivers
+        ride={ride}
+         waitingForDriver={waitingForDriver} />
       </div>
     </div>
   )
