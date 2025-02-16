@@ -11,11 +11,11 @@ import { SocketContext } from '../context/SocketContext';
 
 
 const CaptainHome = () => {
-  const [ridePopupPanel, setRidePopupPanel] = useState(true)
+  const [ridePopupPanel, setRidePopupPanel] = useState(false)
   const ridePopupPanelRef = useRef(null)
   const [confirmridePopupPanel, setConfirmRidePopupPanel] = useState(false)
   const confirmRidePopupPanelRef = useRef(null)
-
+  const [ride, setRide] = useState(null);
   const { socket } = useContext(SocketContext);
   const { captain } = useContext(CaptainDataContext);
 
@@ -49,6 +49,8 @@ const CaptainHome = () => {
 
   socket.on('new-ride', (data) => {
    console.log(data)
+   setRide(data)
+   setRidePopupPanel(true);
   })
 
   useGSAP(function () {
@@ -94,7 +96,7 @@ const CaptainHome = () => {
       <div ref={ridePopupPanelRef} className='fixed w-full z-10 bottom-0 translate-y-full bg-white px-3 py-10 pt-12'>
         <RidePopUp
 
-
+          ride={ride}
           setRidePopupPanel={setRidePopupPanel}
           setConfirmRidePopupPanel={setConfirmRidePopupPanel}
 
