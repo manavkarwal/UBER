@@ -12,6 +12,7 @@ import { useContext } from 'react';
 import { UserDataContext } from '../context/UserContext';
 import { SocketContext } from '../context/SocketContext';
 import { useNavigate } from 'react-router-dom';
+// import LiveTracking from '../components/LiveTracking';
 
 
 
@@ -242,7 +243,11 @@ const Home = () => {
 
       <img className='w-20 mt-4 ml-2 ' src="https://logos-world.net/wp-content/uploads/2020/05/Uber-Emblem.png" alt="" />
       <div className='h-screen w-screen '>
-        map
+      {/* <LiveTracking 
+    pickup={pickup}
+    destination={destination}
+   
+  /> */}
       </div>
       <div className=' flex flex-col justify-end h-screen absolute top-0'>
         <div className='h-[30%] p-5   bg-gray-100'>
