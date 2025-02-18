@@ -1,10 +1,12 @@
 import React from 'react'
-import { Link } from 'react-router-dom' // Added useLocation
+import { Link, useLocation } from 'react-router-dom' // Added useLocation
+
 
 
 const Riding = () => {
+    const location = useLocation();
+    const { ride } = location.state || {};
 
-  
 
     return (
         <div className='h-screen'>
@@ -12,7 +14,7 @@ const Riding = () => {
                 <i className="text-lg font-medium ri-home-5-line"></i>
             </Link>
             <div className='h-1/2'>
-               
+
 
             </div>
             <div className='h-1/2 p-4'>
@@ -20,8 +22,8 @@ const Riding = () => {
                     <img className='h-12' src="https://swyft.pl/wp-content/uploads/2023/05/how-many-people-can-a-uberx-take.jpg" alt="" />
                     <div className='text-right'>
                         <h2 className='text-lg font-medium capitalize'>.</h2>
-                        <h4 className='text-xl font-semibold -mt-1 -mb-1'>.</h4>
-                        <p className='text-sm text-gray-600'>Maruti Suzuki Alto</p>
+                        <h4 className='text-xl font-semibold -mt-1 -mb-1'>{ride?.captain.fullname.firstname} {ride?.captain.fullname.lastname}</h4>
+                        <p className='text-sm text-gray-600'>{ride?.captain.vehicle.plate}</p>
 
                     </div>
                 </div>
@@ -33,14 +35,14 @@ const Riding = () => {
                             <i className="text-lg ri-map-pin-2-fill"></i>
                             <div>
                                 <h3 className='text-lg font-medium'>562/11-A</h3>
-                                <p className='text-sm -mt-1 text-gray-600'>.</p>
+                                <p className='text-sm -mt-1 text-gray-600'>{ride?.destination}</p>
                             </div>
                         </div>
                         <div className='flex items-center gap-5 p-3'>
                             <i className="ri-currency-line"></i>
                             <div>
                                 <h3 className='text-lg font-medium'>
-                                  . </h3>
+                                    {ride?.fare} </h3>
                                 <p className='text-sm -mt-1 text-gray-600'>Cash Cash</p>
                             </div>
                         </div>
