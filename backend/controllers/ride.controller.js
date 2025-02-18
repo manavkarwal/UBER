@@ -4,7 +4,7 @@ const mapService = require("../services/map.services");
 const { sendMessageToSocketId } = require("../socket");
 const rideModels = require("../models/ride.models");
 
-module.exports.createride = async (req, res) => {
+module.exports.createRide = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -69,7 +69,7 @@ module.exports.getFaree = async (req, res) => {
 };
 
 
-module.exports.createRide = async (req, res) => {
+module.exports.comfirmRide = async (req, res) => {
   
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -88,5 +88,28 @@ module.exports.createRide = async (req, res) => {
       return res.status(200).json(ride);
   } catch (error) {
     return res.status(500).json({ message: error.message});
+  }
+}
+
+
+module.exports.startRide = async (req , res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { rideId, otp } = req.query;
+
+  try {
+    const ride = await rideService.startRide( rideId , otp )
+
+
+    sendMessageToSocketId(ride.user.socketId,{
+      event:'ride-started',
+      data: ride
+    })
+    return res.status(200).json(ride);
+  } catch (error) {
+    throw new Error('ride controller start ride issue')
   }
 }

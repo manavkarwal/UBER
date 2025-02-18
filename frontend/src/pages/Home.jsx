@@ -11,6 +11,9 @@ import axios from 'axios'
 import { useContext } from 'react';
 import { UserDataContext } from '../context/UserContext';
 import { SocketContext } from '../context/SocketContext';
+import { useNavigate } from 'react-router-dom';
+
+
 
 // Add these new functions after the imports and before the Home component
 
@@ -58,6 +61,8 @@ const Home = () => {
   const [fare, setFare] = useState([]);
   const [vehicleType, setVehicleType] = useState(null)
   const [ride, setRide] = useState(null);
+
+  const navigate = useNavigate();
 
 
   const { socket } = useContext(SocketContext);
@@ -218,7 +223,14 @@ const Home = () => {
 
   socket.on('ride-confirmed', ride => {
     setRide(ride)
-   setWaitingForDriver(true) 
+    setWaitingForDriver(true)
+  })
+
+
+
+  socket.on('ride-started', ride => {
+    setWaitingForDriver(false)
+    navigate('/riding')
   })
 
 
@@ -296,11 +308,11 @@ const Home = () => {
           setConfirmRidePanel={setConfirmRidePanel} setVehicleFound={setVehicleFound} />
       </div>
       <div ref={waitingForDriverRef}
-      ride={createRide}
-       className='fixed w-full px-3  translate-y-full  py-6 bg-white z-10 bottom-0 '>
+        ride={createRide}
+        className='fixed w-full px-3  translate-y-full  py-6 bg-white z-10 bottom-0 '>
         <WaitingForDrivers
-        ride={ride}
-         waitingForDriver={waitingForDriver} />
+          ride={ride}
+          waitingForDriver={waitingForDriver} />
       </div>
     </div>
   )

@@ -19,7 +19,7 @@ router.post(
     .isString()
     .isIn(["auto", "car", "motorcycle"])
     .withMessage("Invalid vehicleType"),
-  rideController.createride
+  rideController.createRide
 );
 
 router.get(
@@ -41,14 +41,19 @@ router.get(
   rideController.getFaree
 );
 
-try {
-  router.post(
-    "/confirm",
-    authMiddleware.authCaptain,
-    body("rideId").isMongoId().withMessage("Invalid ride id"),
-    rideController.createRide
-  );
-} catch (error) {
-  console.log(error,"issue in route")
-}
+router.post(
+  "/confirm",
+  authMiddleware.authCaptain,
+  body("rideId").isMongoId().withMessage("Invalid ride id"),
+  rideController.comfirmRide
+);
+
+
+router.get('/start-ride',
+  authMiddleware.authCaptain,
+  query('rideId').isMongoId().withMessage('Invalid ride id'),
+  query('otp').isString().isLength({ min:6, max:6 }).withMessage('invalid otp'),
+  rideController.startRide
+)
+
 module.exports = router;
